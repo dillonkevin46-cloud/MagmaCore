@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Assets - MagmaCore{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="text-white">Asset Registry</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        <button class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>Add New Asset</button>
+    </div>
+</div>
+
+<div class="glass-panel p-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Specifications</th>
+                    <th scope="col">Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in assets %}
+                <tr>
+                    <td>{{ asset.name }}</td>
+                    <td>
+                        <span class="badge bg-info text-dark">
+                            {{ asset.category.name|default:"Uncategorized" }}
+                        </span>
+                    </td>
+                    <td>
+                        <small class="text-muted">
+                        {% for key, value in asset.specifications.items %}
+                            <strong>{{ key }}:</strong> {{ value }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            -
+                        {% endfor %}
+                        </small>
+                    </td>
+                    <td>{{ asset.created_at|date:"M d, Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">No assets found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

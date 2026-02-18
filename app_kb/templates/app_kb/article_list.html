@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Knowledge Base - MagmaCore{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="text-white">Knowledge Base</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        <button class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>New Article</button>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for article in articles %}
+    <div class="col-md-4">
+        <div class="card h-100 p-4 border-0">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge bg-secondary">{{ article.category.name|default:"General" }}</span>
+                <small class="text-muted">{{ article.created_at|date:"M d, Y" }}</small>
+            </div>
+            <h5 class="card-title fw-bold">{{ article.title }}</h5>
+            <p class="card-text text-muted mt-2">
+                {{ article.content|striptags|truncatewords:20 }}
+            </p>
+            <a href="#" class="btn btn-outline-primary btn-sm mt-auto stretched-link">Read Article</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="glass-panel p-5 text-center">
+            <h4 class="text-muted">No public articles available.</h4>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
